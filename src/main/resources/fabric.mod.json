@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "planner",
+  "version": "${version}",
+  "name": "Planner",
+  "description": "Plan the materials for a build: add what a project needs and see it in stacks, shulker boxes, double chests and double chests of shulkers, how much you have, and how long the rest takes to farm. Client-side only. Unofficial: not made or endorsed by Mojang, Microsoft or Anthropic.",
+  "authors": ["omeldar"],
+  "contact": {
+    "homepage": "https://github.com/omeldar/goh-planner",
+    "sources": "https://github.com/omeldar/goh-planner",
+    "issues": "https://github.com/omeldar/goh-planner/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.omeldar.planner.PlannerClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.3",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": ">=0.141.3"
+  },
+  "suggests": { "lumipet": "*" }
+}
