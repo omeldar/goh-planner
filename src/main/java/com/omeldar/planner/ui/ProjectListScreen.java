@@ -148,7 +148,8 @@ public final class ProjectListScreen extends Screen {
             Project p = all.get(i);
             if (i == selected) ctx.fill(x, y, x + W, y + ROW, Ui.ROW_SELECTED);
             else if (i == hover) ctx.fill(x, y, x + W, y + ROW, Ui.ROW_HOVER);
-            String right = p.entries.size() + " materials, " + Math.round(p.progress() * 100) + "%";
+            String right = p.entries.size() + (p.entries.size() == 1 ? " material, " : " materials, ")
+                    + Math.round(p.progress() * 100) + "%";
             int rw = textRenderer.getWidth(right);
             int nameW = Math.min(textRenderer.getWidth(p.name), (W - rw) / 2);
             ctx.drawTextWithShadow(textRenderer, Ui.trim(textRenderer, p.name, nameW), x + 4, y + 3, Ui.TEXT);
