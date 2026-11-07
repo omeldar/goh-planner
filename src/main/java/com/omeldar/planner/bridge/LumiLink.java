@@ -18,14 +18,21 @@ import java.nio.file.Path;
  */
 public final class LumiLink {
     static final String HINT =
-            "Planner keeps the player's build projects - one list across all their worlds and "
-          + "servers, each labelled with where it was made - and the materials each needs, "
-          + "how many they have, and their farm rates. Each material is planned in a container "
-          + "(chests, double chests, shulker chests = a chest of 27 shulker boxes, shulker double "
-          + "chests = a double chest of 54), and players count progress in filled containers "
-          + "(plan_add_filled). Amounts take a unit and the item's real stack size is used. Read "
-          + "plan_list_projects before naming a project. When a player describes a build, "
-          + "you can estimate the materials and add them, but say they are estimates.";
+            "Planner is the player's build planner (\"my plan\", \"my project\", \"the castle list\"). "
+          + "Projects are one list across all their worlds and servers, each labelled with where "
+          + "it was made, so a build planned in a creative copy can be gathered on the server. "
+          + "Each material is planned in a container: chests (27 stacks), double chests (54), "
+          + "shulker chests (a chest of 27 full shulker boxes), shulker double chests (a double "
+          + "chest of 54); the item's real stack size is used (16 for ender pearls, 1 for tools). "
+          + "Players keep progress by pressing + per filled container - plan_add_filled is that "
+          + "button. Read plan_list_projects before naming a project; plan_show_project opens it "
+          + "on screen when they want to see it. When a player describes a build you may "
+          + "estimate materials and add them, but say they are estimates. "
+          + "For the player: the B key opens it by default (goh_get_status shows the real key if "
+          + "GoH is installed), or /plan. Commands: /plan new <name>, /plan open <name>, "
+          + "/plan add <item> <amount> [unit], /plan filled <item> [n], /plan count (counts the "
+          + "inventory and shulker boxes into have), /plan show. In the screen: Add item, Edit "
+          + "(container, amounts, farm rate), Count inv., Copy (a fresh copy to plan a variant).";
 
     private LumiLink() {}
 
