@@ -12,8 +12,11 @@ Part of the [GoH mod family](https://github.com/users/omeldar/projects/2). Built
 
 ## How it works
 
-**Projects** belong to the world you are in - each single player save and each server has its
-own list. `/plan` opens it.
+**Projects** are one list across all your worlds and servers, each labelled with where it was
+made. Plan a build in a creative copy of the world, then open the same project on the server and
+fill it there. **Copy** makes a fresh copy of a project's materials list with nothing filled, for
+planning a variant. `/plan` opens it. (0.1.0 kept a list per world; those are folded in on first
+start.)
 
 **Materials are planned in a container you pick per material:**
 

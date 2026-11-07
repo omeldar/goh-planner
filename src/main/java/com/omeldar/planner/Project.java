@@ -8,6 +8,8 @@ import java.util.Locale;
 public final class Project {
     public String name = "";
     public String notes = "";
+    /** Where it was made, "World Castle copy" or "Server goh.example.net"; shown, never enforced. */
+    public String world = "";
     public String created = "";
     public List<Entry> entries = new ArrayList<>();
 

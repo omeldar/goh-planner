@@ -18,7 +18,8 @@ import java.nio.file.Path;
  */
 public final class LumiLink {
     static final String HINT =
-            "Planner keeps the player's build projects for this world: the materials each needs, "
+            "Planner keeps the player's build projects - one list across all their worlds and "
+          + "servers, each labelled with where it was made - and the materials each needs, "
           + "how many they have, and their farm rates. Each material is planned in a container "
           + "(chests, double chests, shulker chests = a chest of 27 shulker boxes, shulker double "
           + "chests = a double chest of 54), and players count progress in filled containers "

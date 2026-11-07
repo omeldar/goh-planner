@@ -67,7 +67,6 @@ final class Mcp {
 
     static String call(String name, JsonObject a) throws Exception {
         return ClientQueue.on(mc -> {
-            if (!Store.ready()) return "not in a world: projects belong to a world, so join one first";
             return switch (name) {
                 case "list_projects" -> listProjects();
                 case "get_project" -> withProject(a, Mcp::projectJson);
@@ -124,6 +123,7 @@ final class Mcp {
         for (Project p : Store.all()) {
             JsonObject o = new JsonObject();
             o.addProperty("name", p.name);
+            o.addProperty("madeIn", p.world);
             o.addProperty("materials", p.entries.size());
             o.addProperty("progressPercent", Math.round(p.progress() * 100));
             o.addProperty("open", p == current);

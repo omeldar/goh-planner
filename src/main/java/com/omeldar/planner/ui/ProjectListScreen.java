@@ -10,10 +10,13 @@ import net.minecraft.text.Text;
 
 import java.util.List;
 
-/** The projects of this world. Click to select, double-click to open. */
+/**
+ * Every project, from every world and server, with where each was made. Plan in a creative
+ * copy, gather on the server: it is the same list. Click to select, double-click to open.
+ */
 public final class ProjectListScreen extends Screen {
     private static final int ROW = 14;
-    private static final int W = 300;
+    private static final int MAX_W = 380;
 
     private int selected = -1;
     private int scroll;
@@ -25,16 +28,21 @@ public final class ProjectListScreen extends Screen {
         super(Text.literal("Projects"));
     }
 
+    private int w() {
+        return Math.min(MAX_W, width - 20);
+    }
+
     @Override
     protected void init() {
         Store.ready();
+        int W = w();
         int x = (width - W) / 2;
         int y2 = height - 26;
         int y1 = y2 - 24;
         listTop = 28;
         listBottom = y1 - 6;
         Project sel = selectedProject();
-        int bw = (W - 12) / 4;
+        int bw = (W - 16) / 5;
 
         addDrawableChild(ButtonWidget.builder(Text.literal("New"), b -> prompt("New project", "", name -> {
             String failed = Store.create(name);
@@ -43,10 +51,16 @@ public final class ProjectListScreen extends Screen {
         })).dimensions(x, y1, bw, 20).build());
         ButtonWidget open = ButtonWidget.builder(Text.literal("Open"), b -> open())
                 .dimensions(x + bw + 4, y1, bw, 20).build();
+        ButtonWidget copy = ButtonWidget.builder(Text.literal("Copy"), b -> {
+            Project p = selectedProject();
+            if (p != null) prompt("Copy " + p.name + " as", p.name + " (copy)", name -> Store.duplicate(p, name));
+        }).dimensions(x + 2 * (bw + 4), y1, bw, 20).build();
+        copy.setTooltip(net.minecraft.client.gui.tooltip.Tooltip.of(Text.literal(
+                "A fresh copy of the materials list, with nothing filled yet.")));
         ButtonWidget rename = ButtonWidget.builder(Text.literal("Rename"), b -> {
             Project p = selectedProject();
             if (p != null) prompt("Rename " + p.name, p.name, name -> Store.rename(p, name));
-        }).dimensions(x + 2 * (bw + 4), y1, bw, 20).build();
+        }).dimensions(x + 3 * (bw + 4), y1, bw, 20).build();
         ButtonWidget delete = ButtonWidget.builder(Text.literal(confirmDelete ? "Sure?" : "Delete"), b -> {
             Project p = selectedProject();
             if (p == null) return;
@@ -58,9 +72,10 @@ public final class ProjectListScreen extends Screen {
                 confirmDelete = false;
             }
             clearAndInit();
-        }).dimensions(x + 3 * (bw + 4), y1, bw, 20).build();
-        open.active = rename.active = delete.active = sel != null;
+        }).dimensions(x + 4 * (bw + 4), y1, bw, 20).build();
+        open.active = copy.active = rename.active = delete.active = sel != null;
         addDrawableChild(open);
+        addDrawableChild(copy);
         addDrawableChild(rename);
         addDrawableChild(delete);
         addDrawableChild(ButtonWidget.builder(Text.literal("Close"), b -> close())
@@ -84,6 +99,7 @@ public final class ProjectListScreen extends Screen {
     }
 
     private int rowAt(double mouseX, double mouseY) {
+        int W = w();
         int x = (width - W) / 2;
         if (mouseX < x || mouseX > x + W || mouseY < listTop || mouseY >= listBottom) return -1;
         int i = (int) ((mouseY - listTop + scroll) / ROW);
@@ -116,10 +132,11 @@ public final class ProjectListScreen extends Screen {
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
         super.render(ctx, mouseX, mouseY, delta);
         ctx.drawCenteredTextWithShadow(textRenderer, title, width / 2, 12, Ui.TITLE);
+        int W = w();
         int x = (width - W) / 2;
         List<Project> all = Store.all();
         if (all.isEmpty()) {
-            ctx.drawCenteredTextWithShadow(textRenderer, Text.literal("No projects in this world yet. Press New."),
+            ctx.drawCenteredTextWithShadow(textRenderer, Text.literal("No projects yet. Press New."),
                     width / 2, listTop + 10, Ui.DIM);
             return;
         }
@@ -133,7 +150,12 @@ public final class ProjectListScreen extends Screen {
             else if (i == hover) ctx.fill(x, y, x + W, y + ROW, Ui.ROW_HOVER);
             String right = p.entries.size() + " materials, " + Math.round(p.progress() * 100) + "%";
             int rw = textRenderer.getWidth(right);
-            ctx.drawTextWithShadow(textRenderer, Ui.trim(textRenderer, p.name, W - rw - 16), x + 4, y + 3, Ui.TEXT);
+            int nameW = Math.min(textRenderer.getWidth(p.name), (W - rw) / 2);
+            ctx.drawTextWithShadow(textRenderer, Ui.trim(textRenderer, p.name, nameW), x + 4, y + 3, Ui.TEXT);
+            if (p.world != null && !p.world.isBlank()) {
+                ctx.drawTextWithShadow(textRenderer, Ui.trim(textRenderer, p.world, W - rw - nameW - 24),
+                        x + 12 + nameW, y + 3, 0xFF6F8FAF);
+            }
             ctx.drawTextWithShadow(textRenderer, right, x + W - rw - 4, y + 3, Ui.DIM);
         }
         ctx.disableScissor();
