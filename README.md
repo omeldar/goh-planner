@@ -15,7 +15,7 @@ Part of the [GoH mod family](https://github.com/users/omeldar/projects/2). Built
 **Projects** are one list across all your worlds and servers, each labelled with where it was
 made. Plan a build in a creative copy of the world, then open the same project on the server and
 fill it there. **Copy** makes a fresh copy of a project's materials list with nothing filled, for
-planning a variant. `/plan` opens it. (0.1.0 kept a list per world; those are folded in on first
+planning a variant. **B** opens it, as does `/plan`; the key is rebindable in Controls, or on the last page of the GoH setup walkthrough. (0.1.0 kept a list per world; those are folded in on first
 start.)
 
 **Materials are planned in a container you pick per material:**
@@ -51,7 +51,8 @@ scale; lists scroll.
 ## Commands
 
 ```
-/plan                              the open project, or the project list
+B                                  the open project, or the project list (rebindable)
+/plan                              the same, for anyone who prefers typing
 /plan new <name>                   create a project and open it
 /plan open <name>
 /plan add <item> <amount> [unit]   unit: chests, double chests (default), shulker chests,

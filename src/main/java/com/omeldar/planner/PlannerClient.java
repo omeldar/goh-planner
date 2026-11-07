@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  * Planner: what a build needs, in the units you store it in. Client-side only.
  *
  * <p>Costs nothing in play. There is no HUD and no rendering outside its own screens, and the
- * one tick listener only opens a screen a command asked for.
+ * one tick listener only polls a key and opens a screen a command asked for.
  */
 public final class PlannerClient implements ClientModInitializer {
     public static final Logger LOG = LoggerFactory.getLogger("planner");
@@ -26,7 +26,9 @@ public final class PlannerClient implements ClientModInitializer {
     public void onInitializeClient() {
         Config.load();
         Commands.register();
+        Keybinds.register();
         ClientTickEvents.END_CLIENT_TICK.register(mc -> {
+            Keybinds.onTick(mc);
             if (pending != null && mc.currentScreen == null) {
                 Screen s = pending;
                 pending = null;
